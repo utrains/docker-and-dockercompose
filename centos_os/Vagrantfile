@@ -1,0 +1,30 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#-----------------------------------------------------------------------------------------------------------------#
+# 
+# @Autor : Hermann90
+# Description : Vagrant file and script for provisionning Docker installation DevOps Courses
+# Date : 11 Nov 2022
+#   
+#------------------------------------------------------------------------------------------------------------------#
+
+Vagrant.configure("2") do |config|
+    # devopshost-h90 : is the name that have our server
+    config.vm.define "devopshost-h90" do |devopshost|
+      devopshost.vm.box = "centos/7"
+      devopshost.vm.hostname = "devopshost-h90"
+      devopshost.vm.network "private_network", ip: "192.168.56.11"
+      devopshost.vm.provider :virtualbox do |v|
+        v.customize ["modifyvm", :id, "--memory", 2048]
+        v.customize ["modifyvm", :id, "--name", "devopshost-h90"]
+        v.customize ["modifyvm", :id, "--cpus", "2"]
+      end
+      config.vm.provision "shell", inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config   
+        sudo systemctl restart sshd
+      SHELL
+      #install_docker.sh : This is the script that will take care of the installation of Docker
+      devopshost.vm.provision "shell", path: "install_docker.sh"
+    end
+  end

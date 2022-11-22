@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"type":"rsync","guestpath":"/vagrant","hostpath":"D:/Formations/DevOps/docker-xavki/docker-formation/centos_os","disabled":false,"__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}
